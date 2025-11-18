@@ -34,6 +34,22 @@ public class TodoChromeTest {
         react.assertNumTotal(1);
     }
 
+    @Test
+    void reactCompleteTest() throws Exception {
+        TodoMVCVariants react = new TodoMVCVariants(driver);
+        react.navigate();
+        react.addTodo("Example1");
+//        react.addTodo("Example2");
+//        react.addTodo("Example3");
+
+        /// need to refactor
+        react.complete(1);
+//        takeScreenshot(driver, "completed1.png");
+        react.incomplete(1);
+//        takeScreenshot(driver, "incompleted1.png");
+
+    }
+
     @DisplayName("Input multiple items")
     @ParameterizedTest(name = "Inputting {0} should return {1}")
     @CsvSource({

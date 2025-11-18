@@ -29,6 +29,27 @@ public class TodoMVCVariants {
         driver.findElement(inputBox).sendKeys(Keys.ENTER);
     }
 
+    public void clickDownArrow() {
+        driver.findElement(By.id("toggle-all")).click();
+        // way to call, and assert that all items are marked as completed.
+        //  react.clickDownArrow();
+        //  react.assertNumTotal(0);
+    }
+
+    public void modifyItem() {
+        WebElement dropdown = driver.findElement(By.className("todo-list"));
+
+    }
+
+    // need to refactor
+    public void complete(Integer num) {
+        driver.findElement(By.cssSelector("li:nth-child(" + num + ") .toggle")).click();
+    }
+
+    public void incomplete(Integer num) {
+        driver.findElement(By.cssSelector("li:nth-child(" + num + ") .toggle")).click();
+    }
+    
     public void assertNumTotal(Integer num){
         WebElement count = driver.findElement(By.className("todo-count"));
 
