@@ -1,3 +1,6 @@
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -31,9 +34,24 @@ public class TodoChromeTest {
         react.assertNumTotal(1);
     }
 
+    @DisplayName("Input multiple items")
+    @ParameterizedTest(name = "Inputting {0} should return {1}")
+    @CsvSource({
+            "t",
+            "è",
+            "Å",
+            "✅😊",
+            "!",
+            "Æ",
+            "Example1"
+    })
 
+    public void testInputItems(String searchTerm) throws Exception {
 
-
+        TodoMVCVariants react = new TodoMVCVariants(driver);
+        react.navigate();
+        react.addTodo(searchTerm);
+    }
 
     @AfterAll
     public static void closeBrowser() {
