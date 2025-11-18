@@ -31,9 +31,14 @@ public class TodoMVCVariants {
 
     public void assertNumTotal(Integer num){
         WebElement count = driver.findElement(By.className("todo-count"));
-        assertEquals(num + " item left!", count.getText());
 
+        if (num == 1) {
+            assertEquals(num + " item left!", count.getText());
+        }
+        else {
+            assertEquals(num + " items left!", count.getText());
+        }
         //need to refactor: code to change item / items depending on num
     }
-    
+
 }
