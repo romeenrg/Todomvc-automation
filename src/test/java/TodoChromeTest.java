@@ -5,12 +5,14 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 
-import java.io.File;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.interactions.Actions;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.File;
 
 
-public class todo_Chrome {
+public class TodoChromeTest {
 
     private static ChromeDriver driver;
 
@@ -21,8 +23,10 @@ public class todo_Chrome {
 
 
     @Test
-    public void whateverMyTestShouldBeCalled() {
-        driver.get("https://todomvc.com/");
+    public void reactTest() throws Exception{
+        driver.get("https://todomvc.com/examples/react/dist/");
+        takeScreenshot(driver, "react.png");
+         assertEquals("TodoMVC: React",driver.getTitle());
     }
 
 
@@ -30,6 +34,11 @@ public class todo_Chrome {
     public static void closeBrowser() {
         driver.quit();
     }
-
+    public static void takeScreenshot(WebDriver webdriver, String desiredPath) throws Exception{
+        TakesScreenshot screenshot = ((TakesScreenshot)webdriver);
+        File screenshotFile = screenshot.getScreenshotAs(OutputType.FILE);
+        File targetFile = new File(desiredPath);
+        FileUtils.copyFile(screenshotFile, targetFile);
+    }
 
 }
