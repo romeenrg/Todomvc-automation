@@ -23,11 +23,16 @@ public class TodoChromeTest {
 
 
     @Test
-    public void reactTest() throws Exception{
-        driver.get("https://todomvc.com/examples/react/dist/");
-        takeScreenshot(driver, "react.png");
-         assertEquals("TodoMVC: React",driver.getTitle());
+    void reactTest() throws Exception {
+        TodoMVCVariants react = new TodoMVCVariants(driver);
+        react.navigate();
+        react.assertTitle();
+        react.addTodo("Example1");
+        react.assertNumTotal(1);
     }
+
+
+
 
 
     @AfterAll
@@ -40,5 +45,4 @@ public class TodoChromeTest {
         File targetFile = new File(desiredPath);
         FileUtils.copyFile(screenshotFile, targetFile);
     }
-
 }
