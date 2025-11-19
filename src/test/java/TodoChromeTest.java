@@ -34,6 +34,23 @@ public class TodoChromeTest {
         react.assertNumTotal(1);
     }
 
+
+    @Test
+    void todoCountTest() {
+        TodoMVCVariants react = new TodoMVCVariants(driver);
+        react.navigate();
+        react.addTodo("Example1");
+        assertEquals("1 item left!", driver.findElement(By.className("todo-count")).getText());
+
+        react.addTodo("Example2");
+        assertEquals("2 items left!", driver.findElement(By.className("todo-count")).getText());
+
+        react.clickDownArrow();
+        assertEquals("0 items left!", driver.findElement(By.className("todo-count")).getText());
+        
+        //clear completed?? delete?? so status bar isnt present
+    }
+
     @Test
     void reactCompleteTest() throws Exception {
         TodoMVCVariants react = new TodoMVCVariants(driver);
