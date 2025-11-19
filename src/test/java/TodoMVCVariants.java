@@ -3,9 +3,14 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TodoMVCVariants {
+    static List<String> validItems = new ArrayList<>();
+    static List<String> invalidItems = new ArrayList<>();
 
     protected WebDriver driver;
     private By inputBox = By.id("todo-input");
@@ -29,6 +34,22 @@ public class TodoMVCVariants {
         driver.findElement(inputBox).sendKeys(Keys.ENTER);
     }
 
+    public void createList() {
+        invalidItems.add(""); //empty input
+        invalidItems.add(" "); // space
+        invalidItems.add("t"); //single letter
+
+        validItems.add("èxample"); // lower case accent
+        validItems.add("ÅnExample"); // upper case accent
+        validItems.add("Example!"); // symbol (!)
+        validItems.add("Lorem ipsum dolor sit amet consectetur adipiscing elit. " +
+                "Quisque faucibus ex sapien vitae pellentesque sem placerat. In" +
+                " id cursus mi pretium tellus duis convallis. Tempus leo eu aenean" +
+                " sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendu"); // 256 characters
+        validItems.add("Æxample"); // ligature
+        validItems.add("Example1"); // number
+    }
+
     public void clickDownArrow() {
         driver.findElement(By.id("toggle-all")).click();
         // way to call, and assert that all items are marked as completed.
@@ -49,7 +70,7 @@ public class TodoMVCVariants {
     public void incomplete(Integer num) {
         driver.findElement(By.cssSelector("li:nth-child(" + num + ") .toggle")).click();
     }
-    
+
     public void assertNumTotal(Integer num){
         WebElement count = driver.findElement(By.className("todo-count"));
 

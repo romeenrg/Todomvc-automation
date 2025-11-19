@@ -50,24 +50,24 @@ public class TodoChromeTest {
 
     }
 
-    @DisplayName("Input multiple items")
-    @ParameterizedTest(name = "Inputting {0} should return {1}")
-    @CsvSource({
-            "t",
-            "è",
-            "Å",
-            "✅😊",
-            "!",
-            "Æ",
-            "Example1"
-    })
-
-    public void testInputItems(String searchTerm) throws Exception {
-
+    @Test
+    void addValidItemsReactTest() throws Exception {
         TodoMVCVariants react = new TodoMVCVariants(driver);
         react.navigate();
-        react.addTodo(searchTerm);
+        react.createList();
+        System.out.println();
+        for (String item : react.validItems) {
+            react.addTodo(item);
+            Thread.sleep(1000);
+        }
+
     }
+
+    @Test
+    void addInvalidItemsReactTest() {
+
+    }
+
 
     @AfterAll
     public static void closeBrowser() {
