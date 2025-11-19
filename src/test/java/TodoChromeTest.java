@@ -39,15 +39,22 @@ public class TodoChromeTest {
         TodoMVCVariants react = new TodoMVCVariants(driver);
         react.navigate();
         react.addTodo("Example1");
-//        react.addTodo("Example2");
-//        react.addTodo("Example3");
-
-        /// need to refactor
         react.complete(1);
-//        takeScreenshot(driver, "completed1.png");
-        react.incomplete(1);
-//        takeScreenshot(driver, "incompleted1.png");
+        // Can we refactor this, possibly using a web element for the list of items in place of driver?
+        assertFalse(driver.findElements(By.className("completed")).isEmpty());
+        assertEquals("0 items left!", driver.findElement(By.className("todo-count")).getText());
+    }
 
+    @Test
+    void reactIncompleteTest() throws Exception {
+        TodoMVCVariants react = new TodoMVCVariants(driver);
+        react.navigate();
+        react.addTodo("Example1");
+        react.complete(1);
+        react.incomplete(1);
+        driver.findElement(By.className("todo-count"));
+        assertEquals("1 item left!", driver.findElement(By.className("todo-count")).getText());
+        assertTrue(driver.findElements(By.className("completed")).isEmpty());
     }
 
     @Test

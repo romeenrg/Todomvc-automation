@@ -36,6 +36,8 @@ public class TodoMVCVariants {
     }
 
     public void createList() {
+        // Consider converting to a hashmap if time.
+
         invalidItems.add(""); //empty input
         invalidItems.add(" "); // space
         invalidItems.add("t"); //single letter
@@ -66,10 +68,11 @@ public class TodoMVCVariants {
     // need to refactor
     public void complete(Integer num) {
         driver.findElement(By.cssSelector("li:nth-child(" + num + ") .toggle")).click();
+        driver.findElement(By.className("completed"));
     }
 
     public void incomplete(Integer num) {
-        driver.findElement(By.cssSelector("li:nth-child(" + num + ") .toggle")).click();
+        driver.findElement(By.cssSelector(".completed:nth-child(" + num + ") .toggle")).click();
     }
 
     public void assertNumTotal(Integer num){
