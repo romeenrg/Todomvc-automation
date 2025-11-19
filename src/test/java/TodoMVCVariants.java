@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,4 +84,17 @@ public class TodoMVCVariants {
         //need to refactor: code to change item / items depending on num
     }
 
+    public void deleteItem(Integer num) {
+        Actions actions = new Actions(driver);
+        WebElement hover = driver.findElement(By.cssSelector("li:nth-child(1) label"));
+        actions.moveToElement(hover);
+
+        WebElement cross = driver.findElement(By.cssSelector("li:nth-child(" + num + ") .destroy"));
+        actions.moveToElement(cross);
+        actions.click();
+        actions.perform();
+
+    }
+
 }
+

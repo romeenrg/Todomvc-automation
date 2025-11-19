@@ -51,21 +51,31 @@ public class TodoChromeTest {
     }
 
     @Test
-    void addValidItemsReactTest() throws Exception {
+    void addValidItemsReactTest(){
         TodoMVCVariants react = new TodoMVCVariants(driver);
         react.navigate();
         react.createList();
         System.out.println();
         for (String item : react.validItems) {
             react.addTodo(item);
-            Thread.sleep(1000);
+
+            assertEquals(driver.findElement(By.cssSelector("li:nth-child(1) label")).getText(), item);
+            react.deleteItem(1);
         }
 
     }
 
     @Test
     void addInvalidItemsReactTest() {
+        TodoMVCVariants react = new TodoMVCVariants(driver);
+        react.navigate();
+        react.createList();
+        System.out.println();
+        for (String item : react.invalidItems) {
+            react.addTodo(item);
+              assertTrue(driver.findElements(By.cssSelector("li:nth-child(1) label")).isEmpty());
 
+        }
     }
 
 
