@@ -74,6 +74,67 @@ public class TodoChromeTest {
     }
 
 
+
+    /// PREACT TESTS
+    @Test
+    void preactAddValidItemsAndCountTest() {
+        TodoMVCPreact preact = new TodoMVCPreact(driver);
+        preact.navigate();
+        preact.createList();
+        Integer itemCount = 0;
+        for (String item : preact.validItems) {
+            itemCount += 1;
+            preact.addTodo(item);
+            assertEquals(preact.getTodoCount(itemCount), preact.specifyItemsLeft());
+            assertEquals(driver.findElement(By.cssSelector("li:nth-child(" + itemCount + ") label")).getText(), item);
+        }
+
+        preact.clickDownArrow();
+        assertEquals(preact.getTodoCount(0), preact.specifyItemsLeft()); // Assert there are 0 items
+    }
+
+    @Test
+    void preactCompleteTest() throws Exception {
+        TodoMVCPreact preact = new TodoMVCPreact(driver);
+        preact.navigate();
+        preact.addTodo("Example1");
+        preact.complete(1);
+        // Can we refactor this, possibly using a web element for the list of items in place of driver?
+        assertTrue(driver.findElements(By.className("completed")).size() > 0);
+        assertEquals(preact.getTodoCount(0), preact.specifyItemsLeft()); // Assert there are 0 items
+    }
+
+    @Test
+    void preactIncompleteTest() throws Exception {
+        TodoMVCPreact preact = new TodoMVCPreact(driver);
+        preact.navigate();
+        preact.addTodo("Example1");
+        preact.complete(1);
+        preact.incomplete(1);
+        driver.findElement(By.className("todo-count"));
+
+        assertTrue(driver.findElements(By.className("completed")).size() == 0);
+        assertEquals(preact.getTodoCount(1), preact.specifyItemsLeft()); // Assert there are 0 items
+    }
+
+
+
+    @Test
+    void preactAddInvalidItemsPreactTest()throws Exception {
+        TodoMVCPreact preact = new TodoMVCPreact(driver);
+        preact.navigate();
+        preact.createList();
+        System.out.println();
+        for (String item : preact.invalidItems) {
+            preact.addTodo(item);
+            Thread.sleep(1000);
+            System.out.print(driver.findElements(By.cssSelector("li:nth-child(1) label")).size());
+            assertTrue(driver.findElements(By.cssSelector("li:nth-child(1) label")).isEmpty());
+
+        }
+    }
+
+
     @AfterAll
     public static void closeBrowser() {
         driver.quit();

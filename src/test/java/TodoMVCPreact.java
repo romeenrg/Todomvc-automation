@@ -14,7 +14,7 @@ public class TodoMVCPreact {
     static List<String> invalidItems = new ArrayList<>();
 
     protected WebDriver driver;
-    private By inputBox = By.id("todo-input");
+    private By inputBox = By.className("new-todo");
 
 
     public TodoMVCPreact(WebDriver driver){
@@ -40,7 +40,7 @@ public class TodoMVCPreact {
 
         invalidItems.add(""); //empty input
         invalidItems.add(" "); // space
-        invalidItems.add("t"); //single letter
+        validItems.add("t"); //single letter
 
         validItems.add("èxample"); // lower case accent
         validItems.add("ÅnExample"); // upper case accent
@@ -54,16 +54,16 @@ public class TodoMVCPreact {
     }
 
     public void clickDownArrow() {
-        driver.findElement(By.id("toggle-all")).click();
+        driver.findElement(By.className("toggle-all")).click();
         // way to call, and assert that all items are marked as completed.
         //  react.clickDownArrow();
         //  react.assertNumTotal(0);
     }
 
-    public void modifyItem() {
-        WebElement dropdown = driver.findElement(By.className("todo-list"));
-
-    }
+//    public void modifyItem() {
+//        WebElement dropdown = driver.findElement(By.className("todo-list"));
+//
+//    }
 
     // need to refactor
     public void complete(Integer num) {
@@ -80,8 +80,6 @@ public class TodoMVCPreact {
     }
 
     public String getTodoCount(Integer itemCount) {
-         driver.findElement(By.className("todo-count"));
-
          if (itemCount == 1) {
              return "1 item left!";
          } else {
