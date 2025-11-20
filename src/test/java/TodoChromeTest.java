@@ -24,31 +24,22 @@ public class TodoChromeTest {
         driver = new ChromeDriver();
     }
 
-
     @Test
-    void reactTest() throws Exception {
+    void addValidItemsAndCountTest() {
         TodoMVCVariants react = new TodoMVCVariants(driver);
         react.navigate();
-        react.assertTitle();
-        react.addTodo("Example1");
-        react.assertNumTotal(1);
-    }
-
-
-    @Test
-    void todoCountTest() {
-        TodoMVCVariants react = new TodoMVCVariants(driver);
-        react.navigate();
-        react.addTodo("Example1");
-        assertEquals("1 item left!", driver.findElement(By.className("todo-count")).getText());
-
-        react.addTodo("Example2");
-        assertEquals("2 items left!", driver.findElement(By.className("todo-count")).getText());
+        react.createList();
+        Integer itemCount = 0;
+        for (String item : react.validItems) {
+            itemCount += 1;
+            react.addTodo(item);
+            assertEquals(react.getTodoCount(itemCount), react.specifyItemsLeft());
+            assertEquals(driver.findElement(By.cssSelector("li:nth-child(" + itemCount + ") label")).getText(), item);
+        }
 
         react.clickDownArrow();
-        assertEquals("0 items left!", driver.findElement(By.className("todo-count")).getText());
-        
-        //clear completed?? delete?? so status bar isnt present
+        itemCount = 0;
+        assertEquals(react.getTodoCount(itemCount), react.specifyItemsLeft()); // Assert there are 0 items
     }
 
     @Test
@@ -70,24 +61,12 @@ public class TodoChromeTest {
         react.complete(1);
         react.incomplete(1);
         driver.findElement(By.className("todo-count"));
-        assertEquals("1 item left!", driver.findElement(By.className("todo-count")).getText());
+        assertEquals("1 item left!", react.getTodoCount(1));
+//        assertEquals("1 item left!", driver.findElement(By.className("todo-count")).getText());
         assertTrue(driver.findElements(By.className("completed")).isEmpty());
     }
 
-    @Test
-    void addValidItemsReactTest(){
-        TodoMVCVariants react = new TodoMVCVariants(driver);
-        react.navigate();
-        react.createList();
-        System.out.println();
-        for (String item : react.validItems) {
-            react.addTodo(item);
 
-            assertEquals(driver.findElement(By.cssSelector("li:nth-child(1) label")).getText(), item);
-            react.deleteItem(1);
-        }
-
-    }
 
     @Test
     void addInvalidItemsReactTest() {

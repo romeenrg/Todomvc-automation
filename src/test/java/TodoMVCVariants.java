@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -75,15 +76,22 @@ public class TodoMVCVariants {
         driver.findElement(By.cssSelector(".completed:nth-child(" + num + ") .toggle")).click();
     }
 
-    public void assertNumTotal(Integer num){
-        WebElement count = driver.findElement(By.className("todo-count"));
+    public String specifyItemsLeft() {
+        return driver.findElement(By.className("todo-count")).getText();
+    }
 
-        if (num == 1) {
-            assertEquals(num + " item left!", count.getText());
-        }
-        else {
-            assertEquals(num + " items left!", count.getText());
-        }
+    public String getTodoCount(Integer itemCount) {
+         driver.findElement(By.className("todo-count"));
+
+         if (itemCount == 1) {
+             return "1 item left!";
+         } else {
+             return itemCount + " items left!";
+         }
+
+//         String itemsLeft = Pattern.compile("item[s]? left!");
+////        assertTrue(Pattern.compile("[-]?[0-9]+°C").matcher
+
         //need to refactor: code to change item / items depending on num
     }
 
