@@ -1,17 +1,10 @@
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.interactions.Actions;
-import static org.junit.jupiter.api.Assertions.*;
 
+import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 
 
@@ -26,7 +19,7 @@ public class TodoChromeTest {
 
     @Test
     void addValidItemsAndCountTest() {
-        TodoMVCVariants react = new TodoMVCVariants(driver);
+        TodoMVCReact react = new TodoMVCReact(driver);
         react.navigate();
         react.createList();
         Integer itemCount = 0;
@@ -43,7 +36,7 @@ public class TodoChromeTest {
 
     @Test
     void reactCompleteTest() throws Exception {
-        TodoMVCVariants react = new TodoMVCVariants(driver);
+        TodoMVCReact react = new TodoMVCReact(driver);
         react.navigate();
         react.addTodo("Example1");
         react.complete(1);
@@ -54,7 +47,7 @@ public class TodoChromeTest {
 
     @Test
     void reactIncompleteTest() throws Exception {
-        TodoMVCVariants react = new TodoMVCVariants(driver);
+        TodoMVCReact react = new TodoMVCReact(driver);
         react.navigate();
         react.addTodo("Example1");
         react.complete(1);
@@ -69,7 +62,7 @@ public class TodoChromeTest {
 
     @Test
     void addInvalidItemsReactTest() {
-        TodoMVCVariants react = new TodoMVCVariants(driver);
+        TodoMVCReact react = new TodoMVCReact(driver);
         react.navigate();
         react.createList();
         System.out.println();

@@ -6,11 +6,10 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TodoMVCVariants {
+public class TodoMVCReact {
     static List<String> validItems = new ArrayList<>();
     static List<String> invalidItems = new ArrayList<>();
 
@@ -18,7 +17,7 @@ public class TodoMVCVariants {
     private By inputBox = By.id("todo-input");
 
 
-    public TodoMVCVariants(WebDriver driver){
+    public TodoMVCReact(WebDriver driver){
         this.driver = driver;
     }
 
