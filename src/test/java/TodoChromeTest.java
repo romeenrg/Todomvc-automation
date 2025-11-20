@@ -38,8 +38,7 @@ public class TodoChromeTest {
         }
 
         react.clickDownArrow();
-        itemCount = 0;
-        assertEquals(react.getTodoCount(itemCount), react.specifyItemsLeft()); // Assert there are 0 items
+        assertEquals(react.getTodoCount(0), react.specifyItemsLeft()); // Assert there are 0 items
     }
 
     @Test
@@ -49,8 +48,8 @@ public class TodoChromeTest {
         react.addTodo("Example1");
         react.complete(1);
         // Can we refactor this, possibly using a web element for the list of items in place of driver?
-        assertFalse(driver.findElements(By.className("completed")).isEmpty());
-        assertEquals("0 items left!", driver.findElement(By.className("todo-count")).getText());
+        assertTrue(driver.findElements(By.className("completed")).size() > 0);
+        assertEquals(react.getTodoCount(0), react.specifyItemsLeft()); // Assert there are 0 items
     }
 
     @Test
@@ -61,9 +60,9 @@ public class TodoChromeTest {
         react.complete(1);
         react.incomplete(1);
         driver.findElement(By.className("todo-count"));
-        assertEquals("1 item left!", react.getTodoCount(1));
-//        assertEquals("1 item left!", driver.findElement(By.className("todo-count")).getText());
-        assertTrue(driver.findElements(By.className("completed")).isEmpty());
+
+        assertTrue(driver.findElements(By.className("completed")).size() == 0);
+        assertEquals(react.getTodoCount(1), react.specifyItemsLeft()); // Assert there are 0 items
     }
 
 
