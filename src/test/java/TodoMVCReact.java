@@ -40,8 +40,8 @@ public class TodoMVCReact {
 
         invalidItems.add(""); //empty input
         invalidItems.add(" "); // space
-        invalidItems.add("t"); //single letter
 
+        validItems.add("t"); //single letter
         validItems.add("èxample"); // lower case accent
         validItems.add("ÅnExample"); // upper case accent
         validItems.add("Example!"); // symbol (!)

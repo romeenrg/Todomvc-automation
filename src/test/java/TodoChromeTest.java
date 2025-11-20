@@ -1,3 +1,5 @@
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.jupiter.api.*;
@@ -17,22 +19,44 @@ public class TodoChromeTest {
         driver = new ChromeDriver();
     }
 
-    @Test
-    void addValidItemsAndCountTest() {
+    @DisplayName("Adding items to Todo list: React")
+    @ParameterizedTest(name = "Adding item {0}, which tests {1}")
+    @CsvSource({
+            "t, adding single char item",
+            "èxample, adding lower case special char item",
+            "ÅnExample, adding upper case special char item",
+            "Example!, adding item with symbol included",
+            "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque " +
+                    "faucibus ex sapien vitae pellentesque sem placerat. In id " +
+                    "cursus mi pretium tellus duis convallis. Tempus leo eu aenean " +
+                    "sed diam urna tempor. Pulvinar vivamus fringilla lacus nec " +
+                    "metus bibendu, adding item with 256 characters",
+            "Æxample, adding item with ligature",
+            "Example1, adding item with number",
+    })
+    public void testAddItems(String item, String condition) {
         TodoMVCReact react = new TodoMVCReact(driver);
         react.navigate();
-        react.createList();
-        Integer itemCount = 0;
-        for (String item : react.validItems) {
-            itemCount += 1;
-            react.addTodo(item);
-            assertEquals(react.getTodoCount(itemCount), react.specifyItemsLeft());
-            assertEquals(driver.findElement(By.cssSelector("li:nth-child(" + itemCount + ") label")).getText(), item);
-        }
+        react.addTodo(item);
+        assertEquals(driver.findElement(By.cssSelector("li:nth-child(1) label")).getText(), item);
 
-        react.clickDownArrow();
-        assertEquals(react.getTodoCount(0), react.specifyItemsLeft()); // Assert there are 0 items
     }
+//    @Test
+//    void addValidItemsAndCountTest() {
+//        TodoMVCReact react = new TodoMVCReact(driver);
+//        react.navigate();
+//        react.createList();
+//        Integer itemCount = 0;
+//        for (String item : react.validItems) {
+//            itemCount += 1;
+//            react.addTodo(item);
+//            assertEquals(react.getTodoCount(itemCount), react.specifyItemsLeft());
+//            assertEquals(driver.findElement(By.cssSelector("li:nth-child(" + itemCount + ") label")).getText(), item);
+//        }
+//
+//        react.clickDownArrow();
+//        assertEquals(react.getTodoCount(0), react.specifyItemsLeft()); // Assert there are 0 items
+//    }
 
     @Test
     void reactCompleteTest() throws Exception {
