@@ -1,5 +1,5 @@
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.jupiter.api.*;
@@ -21,19 +21,8 @@ public class TodoChromeTest {
 
     @DisplayName("Adding items to Todo list: React")
     @ParameterizedTest(name = "Adding item {0}, which tests {1}")
-    @CsvSource({
-            "t, adding single char item",
-            "èxample, adding lower case special char item",
-            "ÅnExample, adding upper case special char item",
-            "Example!, adding item with symbol included",
-            "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque " +
-                    "faucibus ex sapien vitae pellentesque sem placerat. In id " +
-                    "cursus mi pretium tellus duis convallis. Tempus leo eu aenean " +
-                    "sed diam urna tempor. Pulvinar vivamus fringilla lacus nec " +
-                    "metus bibendu, adding item with 256 characters",
-            "Æxample, adding item with ligature",
-            "Example1, adding item with number",
-    })
+    @CsvFileSource(resources = "/ToDoItems.csv")
+
     public void testAddItems(String item, String condition) {
         TodoMVCReact react = new TodoMVCReact(driver);
         react.navigate();
@@ -82,8 +71,6 @@ public class TodoChromeTest {
         assertEquals(react.getTodoCount(1), react.specifyItemsLeft()); // Assert there are 0 items
     }
 
-
-
     @Test
     void addInvalidItemsReactTest() {
         TodoMVCReact react = new TodoMVCReact(driver);
@@ -96,8 +83,6 @@ public class TodoChromeTest {
 
         }
     }
-
-
 
     /// PREACT TESTS
     @Test
@@ -141,8 +126,6 @@ public class TodoChromeTest {
         assertEquals(preact.getTodoCount(1), preact.specifyItemsLeft()); // Assert there are 0 items
     }
 
-
-
     @Test
     void preactAddInvalidItemsPreactTest()throws Exception {
         TodoMVCPreact preact = new TodoMVCPreact(driver);
@@ -158,15 +141,8 @@ public class TodoChromeTest {
         }
     }
 
-
     @AfterAll
     public static void closeBrowser() {
         driver.quit();
-    }
-    public static void takeScreenshot(WebDriver webdriver, String desiredPath) throws Exception{
-        TakesScreenshot screenshot = ((TakesScreenshot)webdriver);
-        File screenshotFile = screenshot.getScreenshotAs(OutputType.FILE);
-        File targetFile = new File(desiredPath);
-        FileUtils.copyFile(screenshotFile, targetFile);
     }
 }

@@ -36,21 +36,11 @@ public class TodoMVCReact {
     }
 
     public void createList() {
-        // Consider converting to a hashmap if time.
-
+        // Our csv file didn't like null values, so we've
+        // kept items we expect to be invalid inside our
+        // page object model.
         invalidItems.add(""); //empty input
         invalidItems.add(" "); // space
-
-        validItems.add("t"); //single letter
-        validItems.add("èxample"); // lower case accent
-        validItems.add("ÅnExample"); // upper case accent
-        validItems.add("Example!"); // symbol (!)
-        validItems.add("Lorem ipsum dolor sit amet consectetur adipiscing elit. " +
-                "Quisque faucibus ex sapien vitae pellentesque sem placerat. In" +
-                " id cursus mi pretium tellus duis convallis. Tempus leo eu aenean" +
-                " sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendu"); // 256 characters
-        validItems.add("Æxample"); // ligature
-        validItems.add("Example1"); // number
     }
 
     public void clickDownArrow() {
