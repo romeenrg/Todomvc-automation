@@ -30,6 +30,19 @@ public class TodoChromeTest {
         assertEquals(driver.findElement(By.cssSelector("li:nth-child(1) label")).getText(), item);
 
     }
+
+    @Test
+    void countItemsTest() {
+        TodoMVCReact react = new TodoMVCReact(driver);
+        react.navigate();
+        react.addTodo("Example1");
+        assertEquals(react.getTodoCount(1), react.specifyItemsLeft());
+        react.addTodo("Example2");
+        assertEquals(react.getTodoCount(2), react.specifyItemsLeft());
+        react.clickDownArrow();
+        assertEquals(react.getTodoCount(0), react.specifyItemsLeft()); // Assert there are 0 items
+    }
+
 //    @Test
 //    void addValidItemsAndCountTest() {
 //        TodoMVCReact react = new TodoMVCReact(driver);
