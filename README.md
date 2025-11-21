@@ -1,17 +1,17 @@
 # TodoMVC Test Automation Project
 Browser used for testing: Chrome
 
-Variant being tested: React
+Variants being tested: React and Preact
 
-Most of the tests are expected to pass, but they have also revealed one bug with the React framework.
+The automated tests we have written have revealed a bug with the React framework.
 
 # Bug Report
-## It's impossible to add a single-character Todo item when using the React framework
+## It's Impossible to Add a Single-Character Todo Item When Using the React Framework
 
 ### Description
 When a user attempts to add a Todo item that's only a single character, no new item is created, and the character remains in the "What needs to be done?" input box.  
 This is different to the Preact, Backbone.js and Angular frameworks, which accept single-character items without issue.  
-It's unlikely that most users would find a single-character Todo item useful, and choosing an item name of two or more characters is simple, making this a low-priority bug to fix
+It's unlikely that most users would find a single-character Todo item useful, and choosing an item name of two or more characters is simple, making this a low-priority bug to fix.
 
 ### Steps to reproduce manually
 In the React framework, type the letter 't' in the 'What needs to be done?' box and press enter. No new item will be created.

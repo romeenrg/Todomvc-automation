@@ -4,11 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.apache.commons.io.FileUtils;
-
 import static org.junit.jupiter.api.Assertions.*;
-import java.io.File;
-
 
 public class TodoChromeTest {
 
@@ -19,20 +15,20 @@ public class TodoChromeTest {
         driver = new ChromeDriver();
     }
 
+    /// REACT TESTS
     @DisplayName("Adding items to Todo list: React")
     @ParameterizedTest(name = "Adding item {0}, which tests {1}")
     @CsvFileSource(resources = "/ToDoItems.csv")
 
-    public void testAddItems(String item, String condition) {
+    public void reactAddItemsTest(String item, String condition) {
         TodoMVCReact react = new TodoMVCReact(driver);
         react.navigate();
         react.addTodo(item);
         assertEquals(driver.findElement(By.cssSelector("li:nth-child(1) label")).getText(), item);
-
     }
 
     @Test
-    void countItemsTest() {
+    void reactCountItemsTest() {
         TodoMVCReact react = new TodoMVCReact(driver);
         react.navigate();
         react.addTodo("Example1");
@@ -43,114 +39,93 @@ public class TodoChromeTest {
         assertEquals(react.getTodoCount(0), react.specifyItemsLeft()); // Assert there are 0 items
     }
 
-//    @Test
-//    void addValidItemsAndCountTest() {
-//        TodoMVCReact react = new TodoMVCReact(driver);
-//        react.navigate();
-//        react.createList();
-//        Integer itemCount = 0;
-//        for (String item : react.validItems) {
-//            itemCount += 1;
-//            react.addTodo(item);
-//            assertEquals(react.getTodoCount(itemCount), react.specifyItemsLeft());
-//            assertEquals(driver.findElement(By.cssSelector("li:nth-child(" + itemCount + ") label")).getText(), item);
-//        }
-//
-//        react.clickDownArrow();
-//        assertEquals(react.getTodoCount(0), react.specifyItemsLeft()); // Assert there are 0 items
-//    }
-
     @Test
-    void reactCompleteTest() throws Exception {
+    void reactMarkCompleteTest() {
         TodoMVCReact react = new TodoMVCReact(driver);
         react.navigate();
         react.addTodo("Example1");
         react.complete(1);
-        // Can we refactor this, possibly using a web element for the list of items in place of driver?
         assertTrue(driver.findElements(By.className("completed")).size() > 0);
-        assertEquals(react.getTodoCount(0), react.specifyItemsLeft()); // Assert there are 0 items
+        assertEquals(react.getTodoCount(0), react.specifyItemsLeft()); // Assert there are 0 items left
     }
 
     @Test
-    void reactIncompleteTest() throws Exception {
+    void reactMarkIncompleteTest() throws Exception {
         TodoMVCReact react = new TodoMVCReact(driver);
         react.navigate();
         react.addTodo("Example1");
         react.complete(1);
         react.incomplete(1);
         driver.findElement(By.className("todo-count"));
-
         assertTrue(driver.findElements(By.className("completed")).size() == 0);
-        assertEquals(react.getTodoCount(1), react.specifyItemsLeft()); // Assert there are 0 items
+        assertEquals(react.getTodoCount(1), react.specifyItemsLeft()); // Assert there's 1 item left
     }
 
     @Test
-    void addInvalidItemsReactTest() {
+    void reactAddInvalidItemsTest() {
         TodoMVCReact react = new TodoMVCReact(driver);
         react.navigate();
         react.createList();
-        System.out.println();
         for (String item : react.invalidItems) {
             react.addTodo(item);
               assertTrue(driver.findElements(By.cssSelector("li:nth-child(1) label")).isEmpty());
-
         }
     }
 
     /// PREACT TESTS
-    @Test
-    void preactAddValidItemsAndCountTest() {
+    @DisplayName("Adding items to Todo list: Preact")
+    @ParameterizedTest(name = "Adding item {0}, which tests {1}")
+    @CsvFileSource(resources = "/ToDoItems.csv")
+
+    public void preactAddItemsTest(String item, String condition) {
         TodoMVCPreact preact = new TodoMVCPreact(driver);
         preact.navigate();
-        preact.createList();
-        Integer itemCount = 0;
-        for (String item : preact.validItems) {
-            itemCount += 1;
-            preact.addTodo(item);
-            assertEquals(preact.getTodoCount(itemCount), preact.specifyItemsLeft());
-            assertEquals(driver.findElement(By.cssSelector("li:nth-child(" + itemCount + ") label")).getText(), item);
-        }
-
-        preact.clickDownArrow();
-        assertEquals(preact.getTodoCount(0), preact.specifyItemsLeft()); // Assert there are 0 items
+        preact.addTodo(item);
+        assertEquals(driver.findElement(By.cssSelector("li:nth-child(1) label")).getText(), item);
     }
 
     @Test
-    void preactCompleteTest() throws Exception {
+    void preactCountItemsTest() {
+        TodoMVCPreact preact = new TodoMVCPreact(driver);
+        preact.navigate();
+        preact.addTodo("Example1");
+        assertEquals(preact.getTodoCount(1), preact.specifyItemsLeft());
+        preact.addTodo("Example2");
+        assertEquals(preact.getTodoCount(2), preact.specifyItemsLeft());
+        preact.clickDownArrow();
+        assertEquals(preact.getTodoCount(0), preact.specifyItemsLeft()); // Assert there are 0 items left
+    }
+
+    @Test
+    void preactMarkCompleteTest() {
         TodoMVCPreact preact = new TodoMVCPreact(driver);
         preact.navigate();
         preact.addTodo("Example1");
         preact.complete(1);
-        // Can we refactor this, possibly using a web element for the list of items in place of driver?
         assertTrue(driver.findElements(By.className("completed")).size() > 0);
-        assertEquals(preact.getTodoCount(0), preact.specifyItemsLeft()); // Assert there are 0 items
+        assertEquals(preact.getTodoCount(0), preact.specifyItemsLeft()); // Assert there are 0 items left
     }
 
     @Test
-    void preactIncompleteTest() throws Exception {
+    void preactMarkIncompleteTest() {
         TodoMVCPreact preact = new TodoMVCPreact(driver);
         preact.navigate();
         preact.addTodo("Example1");
         preact.complete(1);
         preact.incomplete(1);
         driver.findElement(By.className("todo-count"));
-
         assertTrue(driver.findElements(By.className("completed")).size() == 0);
-        assertEquals(preact.getTodoCount(1), preact.specifyItemsLeft()); // Assert there are 0 items
+        assertEquals(preact.getTodoCount(1), preact.specifyItemsLeft()); // Assert there are 0 items left
     }
 
     @Test
-    void preactAddInvalidItemsPreactTest()throws Exception {
+    void preactAddInvalidItemsTest() {
         TodoMVCPreact preact = new TodoMVCPreact(driver);
         preact.navigate();
         preact.createList();
-        System.out.println();
         for (String item : preact.invalidItems) {
             preact.addTodo(item);
-            Thread.sleep(1000);
-            System.out.print(driver.findElements(By.cssSelector("li:nth-child(1) label")).size());
             assertTrue(driver.findElements(By.cssSelector("li:nth-child(1) label")).isEmpty());
-
         }
     }
 

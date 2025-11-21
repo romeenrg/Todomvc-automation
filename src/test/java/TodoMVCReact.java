@@ -3,19 +3,15 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TodoMVCReact {
-    static List<String> validItems = new ArrayList<>();
     static List<String> invalidItems = new ArrayList<>();
 
     protected WebDriver driver;
     private By inputBox = By.id("todo-input");
-
 
     public TodoMVCReact(WebDriver driver){
         this.driver = driver;
@@ -25,40 +21,22 @@ public class TodoMVCReact {
         driver.get("https://todomvc.com/examples/react/dist/");
     }
 
-    public void assertTitle(){
-        assertEquals("TodoMVC: React", driver.getTitle());
-    }
-
-
     public void addTodo(String task){
         driver.findElement(inputBox).sendKeys(task);
         driver.findElement(inputBox).sendKeys(Keys.ENTER);
     }
 
     public void createList() {
-        // Our csv file didn't like null values, so we've
-        // kept items we expect to be invalid inside our
-        // page object model.
         invalidItems.add(""); //empty input
         invalidItems.add(" "); // space
     }
 
     public void clickDownArrow() {
         driver.findElement(By.id("toggle-all")).click();
-        // way to call, and assert that all items are marked as completed.
-        //  react.clickDownArrow();
-        //  react.assertNumTotal(0);
     }
 
-    public void modifyItem() {
-        WebElement dropdown = driver.findElement(By.className("todo-list"));
-
-    }
-
-    // need to refactor
     public void complete(Integer num) {
         driver.findElement(By.cssSelector("li:nth-child(" + num + ") .toggle")).click();
-        driver.findElement(By.className("completed"));
     }
 
     public void incomplete(Integer num) {
@@ -70,31 +48,11 @@ public class TodoMVCReact {
     }
 
     public String getTodoCount(Integer itemCount) {
-         driver.findElement(By.className("todo-count"));
-
          if (itemCount == 1) {
              return "1 item left!";
          } else {
              return itemCount + " items left!";
          }
-
-//         String itemsLeft = Pattern.compile("item[s]? left!");
-////        assertTrue(Pattern.compile("[-]?[0-9]+°C").matcher
-
-        //need to refactor: code to change item / items depending on num
     }
-
-    public void deleteItem(Integer num) {
-        Actions actions = new Actions(driver);
-        WebElement hover = driver.findElement(By.cssSelector("li:nth-child(1) label"));
-        actions.moveToElement(hover);
-
-        WebElement cross = driver.findElement(By.cssSelector("li:nth-child(" + num + ") .destroy"));
-        actions.moveToElement(cross);
-        actions.click();
-        actions.perform();
-
-    }
-
 }
 
